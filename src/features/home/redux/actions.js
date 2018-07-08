@@ -1,0 +1,9 @@
+export { addNewQuestion } from './addNewQuestion';
+export { addNewAnswer } from './addNewAnswer';
+export { changeToGraph } from './changeToGraph';
+export { chooseVote } from './chooseVote';
+export { submitVote } from './submitVote';
+export { addAlert } from './addAlert';
+export { removeAlert } from './removeAlert';
+export { addMoreAnswers } from './addMoreAnswers';
+export { deleteAnswer } from './deleteAnswer';
