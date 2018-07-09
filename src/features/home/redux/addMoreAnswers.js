@@ -22,8 +22,7 @@ export function reducer(state, action) {
           ...state.answers,
           {
             id: action.id,
-            text: '',
-            point: 0
+            answer: ''
           }
         ]
       };

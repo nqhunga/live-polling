@@ -19,7 +19,7 @@ export function reducer(state, action) {
       return {
         ...state,
         answers: state.answers.map(answer => {
-          return answer.id === action.data ? 
+          return answer.text === action.data ? 
             {...answer, point: answer.point + 1 } : answer
         })
       };

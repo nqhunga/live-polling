@@ -3,26 +3,21 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da
 
 import {
-  HOME_ADD_NEW_ANSWER,
+  HOME_TO_CREATE_NEW,
 } from './constants';
 
-export function addNewAnswer(data, thisId) {
+export function toCreateNew() {
   return {
-    type: HOME_ADD_NEW_ANSWER,
-    data: data,
-    id: thisId
+    type: HOME_TO_CREATE_NEW,
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case HOME_ADD_NEW_ANSWER:
+    case HOME_TO_CREATE_NEW:
       return {
         ...state,
-        answers: state.answers.map(a => {
-           return a.id === action.id ? {...a, answer: action.data.text}
-          : a
-        })
+        toCreateNew: true
       };
 
     default:

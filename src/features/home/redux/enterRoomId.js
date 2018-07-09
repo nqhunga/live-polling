@@ -3,21 +3,23 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da
 
 import {
-  HOME_CHANGE_TO_GRAPH,
+  HOME_ENTER_ROOM_ID,
 } from './constants';
 
-export function changeToGraph() {
+export function enterRoomId(id) {
   return {
-    type: HOME_CHANGE_TO_GRAPH,
+    type: HOME_ENTER_ROOM_ID,
+    id: id
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case HOME_CHANGE_TO_GRAPH:
+    case HOME_ENTER_ROOM_ID:
       return {
         ...state,
-        toGraph: true
+        joinRoom: action.id,
+        roomId: action.id
       };
 
     default:

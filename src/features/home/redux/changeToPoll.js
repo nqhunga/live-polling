@@ -3,26 +3,21 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da
 
 import {
-  HOME_ADD_NEW_ANSWER,
+  HOME_CHANGE_TO_POLL,
 } from './constants';
 
-export function addNewAnswer(data, thisId) {
+export function changeToPoll() {
   return {
-    type: HOME_ADD_NEW_ANSWER,
-    data: data,
-    id: thisId
+    type: HOME_CHANGE_TO_POLL,
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case HOME_ADD_NEW_ANSWER:
+    case HOME_CHANGE_TO_POLL:
       return {
         ...state,
-        answers: state.answers.map(a => {
-           return a.id === action.id ? {...a, answer: action.data.text}
-          : a
-        })
+        toVoteRoom: true
       };
 
     default:

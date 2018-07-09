@@ -12,18 +12,18 @@ export class CreateNewPoll extends Component {
     home: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
   };
-
+  // add new question
   newQuestion = (e) => {
     this.props.actions.addNewQuestion(e.target.value);
   }
-
+  // add new answer with onChange input
   newAnswer = (e) => {
     const answerData = {
       text: e.target.value,
     }
     this.props.actions.addNewAnswer(answerData, e.target.name);
   }
-
+  // click to add more answer
   addMoreAnswer = () => {
     const id = v4();
     this.props.actions.addMoreAnswers(id);
@@ -34,21 +34,23 @@ export class CreateNewPoll extends Component {
   }
 
   onSubmit = () => {
-    this.props.actions.changeToGraph();
+    const question = this.props.home.question.text;
+    const answer = this.props.home.answers.map(answer => {
+      return answer.answer
+    });
+    this.props.actions.getRoomId(question, answer);
   }
 
   render() {
-    const { question, answers, toGraph } = this.props.home;
+    const { question, answers, toVoteRoom } = this.props.home;
     const checkAnswer = (answers) => {
-      return answers.every(answer =>  answer.text.length > 0);
+      return answers.every(answer =>  answer.answer.length > 0);
     }
-    const isEnabled = question.text.length > 0 && checkAnswer(answers);
-    if (toGraph) {
+    const isEnabled = question.length > 0 && checkAnswer(answers);
+    if (toVoteRoom) {
       return <Redirect to='/polling' />
     }
     const renderAnswerInput = (answers) => {
-      
-      console.log(answers);
       return answers.map((answer, index) => {
         return <FormGroup key={answer.id}>
           <Col sm={2}>
@@ -68,7 +70,7 @@ export class CreateNewPoll extends Component {
     }
     return (
       <div className="home-create-new-poll">
-        <Form horizontal>
+        <Form horizontal className="form-container">
           <FormGroup>
             <Col sm={2}>
               <ControlLabel>Question</ControlLabel>

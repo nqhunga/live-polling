@@ -18,9 +18,7 @@ export function reducer(state, action) {
     case HOME_ADD_NEW_QUESTION:
       return {
         ...state,
-        question: {
-          text: action.data
-        }
+        question: action.data
       };
 
     default:
