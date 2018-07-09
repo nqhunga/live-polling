@@ -1,13 +1,21 @@
+const express = require('express');
 const app = require('express')();
+const path = require('path');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const cors = require('cors')
 const shortid = require('shortid')
 const bodyparser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
+const host = '0.0.0.0';
+const port = process.env.PORT || 3000;
 
 var collection = null
-
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+})
+// console.log(path.join(__dirname, '../build'))
 app.use(cors());
 app.use(bodyparser.json());
 const uri = 'mongodb+srv://khan:khan@vainu-lead-qlquk.mongodb.net/test?retryWrites=true'
@@ -111,6 +119,9 @@ app.get('/get/:id', async(req, res) => {
 })
 
 
-http.listen(3000, function() {
+http.listen(port, host, function() {
     console.log('listening on :3000');
 });
+// app.listen(port, host, () => {
+//     console.log('Server Started', path.join(__dirname, '../build'))
+// });
