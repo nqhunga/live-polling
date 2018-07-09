@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { v4 } from 'uuid';
 import {
   HOME_JOIN_VOTE_BEGIN,
   HOME_JOIN_VOTE_SUCCESS,
@@ -67,6 +66,7 @@ export function reducer(state, action) {
 
     case HOME_JOIN_VOTE_SUCCESS:
       // The request is success
+      console.log(action.data)
       return {
         ...state,
         joinVotePending: false,

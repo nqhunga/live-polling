@@ -11,3 +11,4 @@ export { joinVote, dismissJoinVoteError } from './joinVote';
 export { toCreateNew } from './toCreateNew';
 export { enterRoomId } from './enterRoomId';
 export { changeToPoll } from './changeToPoll';
+export { updateRoomId } from './updateRoomId';

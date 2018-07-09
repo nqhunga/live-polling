@@ -11,42 +11,44 @@ export class DefaultPage extends Component {
     home: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
   };
-
+  // receive roomid from input
   getRoomId = (e) => {
     this.props.actions.enterRoomId(e.target.value);
   }
-
+  // load polling component
   goTo = () => {
     this.props.actions.joinVote(this.props.home.joinRoom);
   }
-
+  // load create-new component to create new poll
   letCreateNew = () => {
     this.props.actions.toCreateNew();
   }
 
   render() {
-    const {toVoteRoom, toCreateNew} = this.props.home;
+    const { toVoteRoom, toCreateNew, roomId } = this.props.home;
     if (toVoteRoom) {
-      return <Redirect to='/polling' />
+      return <Redirect to={`/polling/${roomId}`} />
     }
     if (toCreateNew) {
       return <Redirect to='/create-new' />
     }
     return (
       <div className="home-default-page">
-        <Form>
+        <Form className="roomId">
           <FormGroup>
             <Col sm={8}>
-             <FormControl
-              type="text"
-              placeholder={`Vote ID`}
-              onChange={e => this.getRoomId(e)}
-            />
+              <FormControl
+                type="text"
+                placeholder={`Vote ID`}
+                onChange={e => this.getRoomId(e)}
+              />
             </Col>
             <Col sm={2}><Button onClick={this.goTo}>Join Vote!</Button></Col>
           </FormGroup>
-          <Button onClick={this.letCreateNew}>Create new Vote!</Button>
         </Form>
+        <div className="create-new">
+          <Button onClick={this.letCreateNew}>Create new Vote!</Button>
+        </div>
       </div>
     );
   }

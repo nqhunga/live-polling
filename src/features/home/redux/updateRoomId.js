@@ -3,23 +3,22 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da
 
 import {
-  HOME_CHOOSE_VOTE,
+  HOME_UPDATE_ROOM_ID,
 } from './constants';
 
-export function chooseVote(data) {
+export function updateRoomId(id) {
   return {
-    type: HOME_CHOOSE_VOTE,
-    data: data
+    type: HOME_UPDATE_ROOM_ID,
+    id: id
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case HOME_CHOOSE_VOTE:
+    case HOME_UPDATE_ROOM_ID:
       return {
         ...state,
-        voteTo: action.data,
-        isEnableVote: true
+        roomId: action.id
       };
 
     default:

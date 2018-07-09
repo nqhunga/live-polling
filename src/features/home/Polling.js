@@ -7,27 +7,29 @@ import { FormGroup, Form, Radio, Button, Alert } from 'react-bootstrap';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import * as io from 'socket.io-client';
 
+
 export class Polling extends Component {
   static propTypes = {
     home: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
   };
-
+  // when load poll: send roomId to state, load data from socket
   componentDidMount() {
-    this.socket = io('http://localhost:3000');
-    const id = this.props.home.roomId
-    this.socket.on('ok', () => {
+    const id = this.props.match.params.id;
+    const socket = io('http://localhost:3000');
+    this.props.actions.updateRoomId(id);
+    socket.on('ok', () => {
       console.log('connect');
-      this.socket.emit('join', { id });
-      this.socket.on('update', 
-      () => this.props.actions.joinVote(this.props.home.roomId));
+      socket.emit('join', { id });
+      socket.on('update',
+        () => this.props.actions.joinVote(id));
     })
   }
-
+  // select answer to vote
   chooseVote = (e) => {
     this.props.actions.chooseVote(e.target.value);
   }
-
+  // submit vote: update result to socket, show message which answer be submited
   onVote = (e) => {
     this.updateSocket(this.props.home.roomId);
     this.props.actions.addAlert();
@@ -36,7 +38,7 @@ export class Polling extends Component {
 
   updateSocket = (id) => {
     const socket = io('http://localhost:3000');
-    const incAnswer= this.props.home.voteTo;
+    const incAnswer = this.props.home.voteTo;
     const letVote = this.props.home.answersVote.map(a => {
       return a.answer === incAnswer ? 1 : 0
     })
@@ -47,6 +49,10 @@ export class Polling extends Component {
         id,
         vote: letVote
       });
+      socket.on('update',
+        () => {
+          this.props.actions.joinVote(this.props.home.roomId);
+        });
     });
   }
 
@@ -55,11 +61,11 @@ export class Polling extends Component {
       return answer.answer === voteTo ?
         answer : ''
     })
-    return temp[0].text
+    return temp[0].answer
   }
 
   render() {
-    const { questionVote, answersVote, voteTo, showAlert, roomId } = this.props.home;
+    const { questionVote, answersVote, voteTo, showAlert, roomId, isEnableVote } = this.props.home;
     const data = answers => {
       return answers.map(a => {
         return {
@@ -68,7 +74,7 @@ export class Polling extends Component {
         }
       })
     }
-
+    // render radio input for answer options
     const radioOption = (answers) => {
       return answers.map((answer) => {
         return (<Radio name="answer group"
@@ -80,28 +86,31 @@ export class Polling extends Component {
         </Radio>)
       })
     }
+
     return (
       <div className="home-polling">
         {showAlert ?
-          <Alert>
+          <Alert className="alert">
             You submit vote for {this.showAlertSubmit(voteTo)}
           </Alert> : ''
         }
 
         <div className="vote-here">
-          <h2>Give your Vote here!</h2>
-          <h3>{questionVote}</h3>
           <i>Id for this Vote <strong>{roomId}</strong></i>
+          <h3><i>Question </i></h3>
+          <h4>{questionVote}</h4>
           <Form>
             <FormGroup>
               {radioOption(answersVote)}
             </FormGroup>
-            <Button onClick={e => this.onVote()}>Vote!</Button>
+            <Button onClick={e => this.onVote()}
+              disabled={!isEnableVote}
+            >Vote!</Button>
           </Form>
         </div>
         <div className="show-graph">
           <h2>Current Results</h2>
-          <BarChart width={600} height={300} data={data(answersVote)}
+          <BarChart width={650} height={400} data={data(answersVote)}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />

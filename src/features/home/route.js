@@ -13,7 +13,7 @@ export default {
       component: DefaultPage,
       isIndex: true,
     },
-    { path: '/polling', name: 'Polling', component: Polling },
+    { path: '/polling/:id', name: 'Polling', component: Polling },
     { path: '/create-new', name: 'Create new poll', component: CreateNewPoll },
   ],
 };

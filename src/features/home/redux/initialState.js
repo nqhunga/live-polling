@@ -9,6 +9,7 @@ const initialState = {
   showAlert: false,
   roomId: null,
   joinRoom: null,
+  isEnableVote: false,
   toVoteRoom: false,
   toCreateNew: false,
   joinVotePending: false,

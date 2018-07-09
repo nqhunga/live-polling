@@ -12,6 +12,7 @@ import { reducer as joinVoteReducer } from './joinVote';
 import { reducer as toCreateNewReducer } from './toCreateNew';
 import { reducer as enterRoomIdReducer } from './enterRoomId';
 import { reducer as changeToPollReducer } from './changeToPoll';
+import { reducer as updateRoomIdReducer } from './updateRoomId';
 
 const reducers = [
   addNewQuestionReducer,
@@ -27,6 +28,7 @@ const reducers = [
   toCreateNewReducer,
   enterRoomIdReducer,
   changeToPollReducer,
+  updateRoomIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

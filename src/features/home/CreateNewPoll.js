@@ -28,13 +28,13 @@ export class CreateNewPoll extends Component {
     const id = v4();
     this.props.actions.addMoreAnswers(id);
   }
-
+  // delete given answer option
   deleteAnswer = (e,answer) => {
     this.props.actions.deleteAnswer(answer);
   }
-
+  // submit question and answer template: get roomId for created vote 
   onSubmit = () => {
-    const question = this.props.home.question.text;
+    const question = this.props.home.question;
     const answer = this.props.home.answers.map(answer => {
       return answer.answer
     });
@@ -42,14 +42,16 @@ export class CreateNewPoll extends Component {
   }
 
   render() {
-    const { question, answers, toVoteRoom } = this.props.home;
+    const { question, answers, toVoteRoom, roomId } = this.props.home;
     const checkAnswer = (answers) => {
       return answers.every(answer =>  answer.answer.length > 0);
     }
+    // boolean for check if all inputs are given
     const isEnabled = question.length > 0 && checkAnswer(answers);
     if (toVoteRoom) {
-      return <Redirect to='/polling' />
+      return <Redirect to={`/polling/${roomId}`} />
     }
+    // render input for answer
     const renderAnswerInput = (answers) => {
       return answers.map((answer, index) => {
         return <FormGroup key={answer.id}>
@@ -84,7 +86,7 @@ export class CreateNewPoll extends Component {
             </Col>
           </FormGroup>
           {renderAnswerInput(answers)}
-          <Col sm={12}>
+          <Col sm={12} className="submit-wrapper">
             <Button disabled={!isEnabled} onClick={this.onSubmit}>Submit</Button>
             <Button onClick={this.addMoreAnswer}>Add more answer</Button>
           </Col>
