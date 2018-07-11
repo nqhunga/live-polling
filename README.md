@@ -10,7 +10,6 @@ To clone for Development:
 in the root directory of clone:
 Download the dependencies
 `npm install`
-</hr>
+
 `npm run start`
-</hr>
 The Application live in http://localhost:6075
